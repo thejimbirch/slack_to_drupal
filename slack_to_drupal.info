@@ -1,4 +1,8 @@
 name = Slack to Drupal
-description = This module integrates images posted to a Slack channel into Drupal.
+description = This module integrates with Slack, and imports images posted to a specified Slack channel into Drupal as File entities.
 version = "7.x-1.0"
 core = "7.x"
+package = Media
+configure = admin/config/services/slack_to_drupal
+dependencies[] = file_entity
+files[] = slack_to_drupal.admin.inc
