@@ -1,0 +1,4 @@
+name = Slack to Drupal
+description = This module integrates images posted to a Slack channel into Drupal.
+version = "7.x-1.0"
+core = "7.x"
