@@ -56,7 +56,7 @@ function slack_to_drupal_install(){
     		'label' => t('Slack Image Approved'),
     		'entity_type' => 'file',
       		'bundle' => 'slack_image',
-    		'required' => true,
+    		'required' => false,
     		'widget' => array(
       			'type' => 'options_onoff',
       			'settings' => array('display_label' => 1),
