@@ -79,8 +79,8 @@ function slack_to_drupal_approve_submit($form, &$form_state) {
   foreach($form_state['input']['files'] as $fid){
   	if(isset($fid)){
   		$image = file_load($form_state['values']['fids'][$fid]);
-  		if($form_state['values']['op'] == 'approve'){
-  			$image->field_slack_image_approved['und']['0']['value'] = 1;
+  		if($form_state['values']['op'] == 'Approve'){
+  			$image->slack_image_approved['und']['0']['value'] = 1;
   			file_save($image);
   			 drupal_set_message('Selected files are approved');
   		}else{
