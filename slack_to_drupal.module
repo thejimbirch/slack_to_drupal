@@ -23,8 +23,14 @@ function slack_to_drupal_menu() {
     'file' => 'slack_to_drupal.admin.inc',
   );
   
+  $items['admin/config/services/slack_to_drupal/configuration'] = array(
+    'title' => 'Configuration',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10
+  );
+  
   $items['admin/config/services/slack_to_drupal/approve'] = array(
-    'type' => MENU_NORMAL_ITEM,
+    'type' => MENU_LOCAL_TASK,
     'title' => 'Approve Slack Images',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('slack_to_drupal_approve'),
