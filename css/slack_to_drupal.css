@@ -1,0 +1,14 @@
+/* Approval screen Layout */
+#slack-to-drupal-approve #edit-files {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+#slack-to-drupal-approve .form-item .form-item {
+    max-width: 20%;
+}
+
+#slack-to-drupal-approve .form-item .form-item img {
+    max-width: 100%;
+}

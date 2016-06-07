@@ -15,7 +15,7 @@ function slack_to_drupal_admin_config() {
     '#title' => t('Slack Channel'),
     '#default_value' => variable_get('slack_to_drupal_channel_id'),
   );
-  
+
   $form['slack_to_drupal_folder_name'] = array(
     '#type' => 'textfield',
     '#title' => t('Local path to files'),
@@ -36,8 +36,11 @@ function slack_to_drupal_approve(){
 
   if (isset($result['file'])) {
    	$ids = array_keys($result['file']);
+    // Adds CSS
+    drupal_add_css($data['css'], array('type' => 'inline'));
+    drupal_add_css(drupal_get_path('module', 'slack_to_drupal') . '/css/slack_to_drupal.css');
   }
-  
+
   $fids = array();
   $count = 0;
   foreach($ids as $id){
@@ -47,13 +50,13 @@ function slack_to_drupal_approve(){
   	$fids[$count] = $id;
   	$count++;
   }
-  
+
   $form['fids'] = array(
 	'#title' =>  'fids',
 	'#value' => $fids,
 	'#type' => 'value',
   );
-  
+
   $form['files'] = array(
   	'#title' => t('Unapproved Images'),
   	'#type' => 'checkboxes',
@@ -64,7 +67,7 @@ function slack_to_drupal_approve(){
     '#type' => 'submit',
     '#value' => t('Approve'),
   );
-  
+
   $form['delete'] = array(
     '#type' => 'submit',
     '#value' => t('Delete'),

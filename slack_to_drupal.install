@@ -81,6 +81,41 @@ function slack_to_drupal_install(){
       		'bundle' => 'slack_image', 
     	);
     	field_create_instance($instance);
+    	
+    if (!field_info_field('slack_user')) {
+		$field = array(
+    		'field_name' => 'slack_user',
+    		'type' => 'text',
+		);
+    	field_create_field($field);
+
+    	// Create the instance on the bundle.
+    	$instance = array(
+      		'field_name' => 'slack_user', 
+      		'entity_type' => 'file', 
+      		'label' => 'Slack User', 
+      		'bundle' => 'slack_image', 
+    	);
+    	field_create_instance($instance);
+  	}
+  	
+  	
+  	if (!field_info_field('slack_date_uploaded')) {
+		$field = array(
+    		'field_name' => 'slack_date_uploaded',
+    		'type' => 'datestamp',
+		);
+    	field_create_field($field);
+
+    	// Create the instance on the bundle.
+    	$instance = array(
+      		'field_name' => 'slack_date_uploaded', 
+      		'entity_type' => 'file', 
+      		'label' => 'Upload Date', 
+      		'bundle' => 'slack_image', 
+    	);
+    	field_create_instance($instance);
+  	}
   	}
 }
 
@@ -102,5 +137,7 @@ function slack_to_drupal_uninstall(){
 	//Delete the fields
 	field_delete_field('slack_image_approved');
 	field_delete_field('slack_image_title_text');
+	field_delete_field('slack_user');
+	field_delete_field('slack_date_uploaded');
 	field_purge_batch();
 }
