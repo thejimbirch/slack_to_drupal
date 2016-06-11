@@ -49,7 +49,11 @@ function slack_to_drupal_install() {
       'type' => 'list_boolean',
       'cardinality' => 1,
       'settings' => array(
-        'allowed_values' => array(0 => 0, 1 => 1), //add the default values for the checkbox
+        // Add the default values for the checkbox.
+        'allowed_values' => array(
+           0 => 0,
+           1 => 1,
+         ),
       ),
     );
     field_create_field($field);
@@ -95,10 +99,10 @@ function slack_to_drupal_install() {
 
       // Create the instance on the bundle.
       $instance = array(
-          'field_name' => 'slack_user',
-          'entity_type' => 'file',
-          'label' => 'Slack User',
-          'bundle' => 'slack_image',
+        'field_name' => 'slack_user',
+        'entity_type' => 'file',
+        'label' => 'Slack User',
+        'bundle' => 'slack_image',
       );
       field_create_instance($instance);
     }
