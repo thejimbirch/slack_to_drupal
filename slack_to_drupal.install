@@ -143,5 +143,4 @@ function slack_to_drupal_uninstall() {
   field_delete_field('slack_image_title_text');
   field_delete_field('slack_user');
   field_delete_field('slack_date_uploaded');
-  field_purge_batch();
 }
