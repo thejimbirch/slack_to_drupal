@@ -85,9 +85,6 @@ function slack_to_drupal_approve() {
   return $form;
 }
 
-function slack_to_drupal_approve_validate($form, &$form_state) {
-}
-
 /**
  * Submit handler for slack_to_drupal_approve().
  */
