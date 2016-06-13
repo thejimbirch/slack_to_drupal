@@ -18,20 +18,14 @@ function slack_to_drupal_ctools_plugin_directory($owner, $plugin_type) {
  * Implements hook_menu().
  */
 function slack_to_drupal_menu() {
-
   $items['admin/config/services/slack_to_drupal'] = array(
     'type' => MENU_NORMAL_ITEM,
     'title' => 'Slack to Drupal',
+    'description' => 'Configure Slack to Drupal.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('slack_to_drupal_admin_config'),
     'access arguments' => array('administer site configuration'),
     'file' => 'slack_to_drupal.admin.inc',
-  );
-
-  $items['admin/config/services/slack_to_drupal/configuration'] = array(
-    'title' => 'Configuration',
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-    'weight' => -10
   );
 
   $items['admin/config/services/slack_to_drupal/approve'] = array(
