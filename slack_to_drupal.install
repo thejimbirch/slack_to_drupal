@@ -132,6 +132,8 @@ function slack_to_drupal_uninstall() {
   variable_del('slack_to_drupal_token');
   variable_del('slack_to_drupal_channel_id');
   variable_deL('slack_to_drupal_folder_name');
+  variable_deL('slack_to_drupal_client_id');
+  variable_deL('slack_to_drupal_client_secret');
 
   // Delete the file type.
   file_type_delete('slack_image');

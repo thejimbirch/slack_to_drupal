@@ -5,30 +5,102 @@
  */
 
 /**
- * Configruation form.
+ * Slack to Drupal configruation form.
  */
-function slack_to_drupal_admin_config() {
-  $form = array();
-
-  $form['slack_to_drupal_token'] = array(
+function slack_to_drupal_admin_config($form, &$form_state) {
+  $form['slack_to_drupal_client_id'] = array(
     '#type' => 'textfield',
-    '#title' => t('Slack Token'),
-    '#default_value' => variable_get('slack_to_drupal_token'),
+    '#title' => t('Slack Client ID'),
+    '#description' => t('The client id can be found on your app\'s credentials page'),
+    '#default_value' => variable_get('slack_to_drupal_client_id'),
+    '#required' => TRUE,
+  );
+
+  $form['slack_to_drupal_client_secret'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Slack Client Secret'),
+    '#description' => t('The client secret can be found on your app\'s credentials page'),
+    '#default_value' => variable_get('slack_to_drupal_client_secret'),
+    '#required' => TRUE,
   );
 
   $form['slack_to_drupal_channel_id'] = array(
     '#type' => 'textfield',
     '#title' => t('Slack Channel'),
+    '#description' => t('The Slack channel id that you would like to integrate to.'),
     '#default_value' => variable_get('slack_to_drupal_channel_id'),
+    '#required' => TRUE,
   );
 
   $form['slack_to_drupal_folder_name'] = array(
     '#type' => 'textfield',
     '#title' => t('Local path to files'),
+    '#description' => t('Path where you would like to save your slack images.'),
     '#default_value' => variable_get('slack_to_drupal_folder_name'),
+    '#required' => TRUE,
   );
 
-  return system_settings_form($form);
+  $form['slack_to_drupal_token'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Slack Client Token'),
+    '#description' => t('The token that Slack Provides.'),
+    '#default_value' => variable_get('slack_to_drupal_token', ''),
+    '#disabled' => TRUE,
+  );
+
+  $form = system_settings_form($form);
+
+  $form['#submit'][] = 'slack_to_drupal_admin_config_submit';
+
+  return $form;
+}
+
+/**
+ * Submit handler for slack_to_drupal_admin_config().
+ */
+function slack_to_drupal_admin_config_submit($form, &$form_state) {
+  global $base_url;
+
+  $query = array(
+    'client_id' => variable_get('slack_to_drupal_client_id'),
+    'scope' => 'read',
+    'redirect_uri' => $base_url . '/admin/config/services/slack_to_drupal/token',
+  );
+
+  $path = 'https://slack.com/oauth/authorize?' . drupal_http_build_query($query);
+  drupal_goto($path);
+}
+
+/**
+ * Sets the Slack token.
+ */
+function slack_to_drupal_admin_token_config() {
+  global $base_url;
+
+  // Get the token from the temporary code.
+  if (isset($_GET['code'])) {
+    $query = array(
+      'client_id' => variable_get('slack_to_drupal_client_id'),
+      'client_secret' => variable_get('slack_to_drupal_client_secret'),
+      'code' => $_GET['code'],
+      'redirect_uri' => $base_url . '/admin/config/services/slack_to_drupal/token',
+    );
+
+    $result = drupal_http_request('https://slack.com/api/oauth.access?' . drupal_http_build_query($query));
+    if ($result->code == 200) {
+      $data = json_decode($result->data);
+      if ($data->ok == TRUE) {
+        variable_set('slack_to_drupal_token', $data->access_token);
+      }
+      else {
+        drupal_set_message(t($data->error), 'error');
+      }
+    }
+  }
+
+  drupal_goto($base_url . '/admin/config/services/slack_to_drupal');
+
+  return '';
 }
 
 /**
