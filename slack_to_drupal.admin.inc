@@ -161,7 +161,7 @@ function slack_to_drupal_approve() {
 
   $fids = array();
   $count = 0;
-  foreach($ids as $id){
+  foreach ($ids as $id) {
     $file = file_load($id);
 
     $form['file'][$id] = array(
@@ -172,7 +172,7 @@ function slack_to_drupal_approve() {
     );
 
     $form['file'][$id]['checkbox'] = array(
-      '#type' =>'checkbox',
+      '#type' => 'checkbox',
     );
 
     $form['file'][$id]['image'] = array(
@@ -220,9 +220,9 @@ function slack_to_drupal_approve_submit($form, &$form_state) {
   }
 
   if ($form_state['values']['op'] == 'Approve') {
-    drupal_set_message('Selected files were approved');
+    drupal_set_message(t('Selected files were approved'));
   }
   else {
-    drupal_set_message('Selected files were removed');
+    drupal_set_message(t('Selected files were removed'));
   }
 }

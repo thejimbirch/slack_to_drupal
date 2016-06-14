@@ -237,7 +237,7 @@ function slack_to_drupal_import_images() {
  */
 function slack_to_drupal_get_channels() {
   $channels = array();
-  $result = drupal_http_request('https://slack.com/api/channels.list?token=' .  variable_get('slack_to_drupal_token'));
+  $result = drupal_http_request('https://slack.com/api/channels.list?token=' . variable_get('slack_to_drupal_token'));
   if ($result->code == 200) {
     $data = json_decode($result->data);
     if ($data->ok == TRUE) {
