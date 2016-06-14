@@ -93,7 +93,7 @@ function slack_to_drupal_admin_token_config() {
         variable_set('slack_to_drupal_token', $data->access_token);
       }
       else {
-        drupal_set_message(t($data->error), 'error');
+        drupal_set_message(t('%error', array('%error' => $data->error)), 'error');
       }
     }
   }
