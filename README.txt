@@ -20,7 +20,8 @@ A new file type called 'Slack Image' and a new display called 'Slack Image
 Display' will be added.
 
 Images get uploaded to Drupal during a Drupal cron job or with
-`drush import-slack-images' command.
+`drush import-slack-images' command.  Once images are uploaded you can approve
+or delete them at: admin/config/services/slack_to_drupal/approve.
 
 
 REQUIREMENTS
