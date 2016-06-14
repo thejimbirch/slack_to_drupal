@@ -111,7 +111,7 @@ function slack_to_drupal_install() {
     if (!field_info_field('slack_date_uploaded')) {
       $field = array(
         'field_name' => 'slack_date_uploaded',
-        'type' => 'number_integer',
+        'type' => 'datestamp',
       );
       field_create_field($field);
 
