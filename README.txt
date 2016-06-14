@@ -103,7 +103,7 @@ MAINTAINERS
 
 Current maintainers:
 * Senem Hartung (the_turk) - https://www.drupal.org/u/the_turk
-* Jim Birch (caffeinated) - https://www.drupal.org/u/caffeinated
+* Jim Birch (Caffeinated) - https://www.drupal.org/u/caffeinated
 * Albert Jankowski (albertski) - https://www.drupal.org/u/albertski
 * Michael Porter (michaelpporter) - https://www.drupal.org/u/michaelpporter
 * Mike Acklin (mikeacklin) - https://www.drupal.org/u/mikeacklin
