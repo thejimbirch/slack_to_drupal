@@ -42,7 +42,7 @@ function slack_to_drupal_admin_config($form, &$form_state) {
 
   $form['slack_to_drupal_channel_id'] = array(
     '#type' => 'textfield',
-    '#title' => t('Slack Channel ID.'),
+    '#title' => t('Slack Channel ID'),
     '#description' => t('The channel ID or if blank all channels.'),
     '#default_value' => variable_get('slack_to_drupal_channel_id', ''),
     '#disabled' => TRUE,
