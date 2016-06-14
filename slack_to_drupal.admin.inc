@@ -61,6 +61,10 @@ function slack_to_drupal_admin_config($form, &$form_state) {
 function slack_to_drupal_admin_config_submit($form, &$form_state) {
   global $base_url;
 
+  // If file path doesn't exist, create it.
+  $file_path = variable_get('slack_to_drupal_folder_name');
+  file_prepare_directory($file_path, FILE_CREATE_DIRECTORY);
+
   $query = array(
     'client_id' => variable_get('slack_to_drupal_client_id'),
     'scope' => 'read',
@@ -109,6 +113,7 @@ function slack_to_drupal_admin_token_config() {
 function slack_to_drupal_approve() {
   $query = new EntityFieldQuery();
   $ids = array();
+  $results = array();
 
   $query->entityCondition('entity_type', 'file')
     ->propertyCondition('type', 'slack_image')
@@ -161,8 +166,8 @@ function slack_to_drupal_approve() {
  * Submit handler for slack_to_drupal_approve().
  */
 function slack_to_drupal_approve_submit($form, &$form_state) {
-  foreach ($form_state['input']['files'] as $fid) {
-    if (isset($fid)) {
+  if (isset($form_state['input']['files'])) {
+    foreach ($form_state['input']['files'] as $fid) {
       $image = file_load($form_state['values']['fids'][$fid]);
       if ($form_state['values']['op'] == 'Approve') {
         $image->slack_image_approved['und']['0']['value'] = 1;
