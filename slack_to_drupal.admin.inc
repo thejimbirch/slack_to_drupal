@@ -161,6 +161,11 @@ function slack_to_drupal_approve() {
 
   $fids = array();
   $count = 0;
+
+  $form['file'] = array(
+    '#type' => 'fieldset',
+  );
+
   foreach ($ids as $id) {
     $file = file_load($id);
 
