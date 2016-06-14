@@ -35,7 +35,7 @@ function slack_to_drupal_admin_config($form, &$form_state) {
   $form['slack_to_drupal_folder_name'] = array(
     '#type' => 'textfield',
     '#title' => t('Local path to files'),
-    '#description' => t('Path where you would like to save your slack images.'),
+    '#description' => t('Path where you would like to save your slack images. Example: slack (will be saved at /sites/default/files/slack)'),
     '#default_value' => variable_get('slack_to_drupal_folder_name'),
     '#required' => TRUE,
   );
@@ -62,7 +62,7 @@ function slack_to_drupal_admin_config_submit($form, &$form_state) {
   global $base_url;
 
   // If file path doesn't exist, create it.
-  $file_path = variable_get('slack_to_drupal_folder_name');
+  $file_path = 'public://' . variable_get('slack_to_drupal_folder_name');
   file_prepare_directory($file_path, FILE_CREATE_DIRECTORY);
 
   $query = array(
