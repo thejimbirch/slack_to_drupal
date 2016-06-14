@@ -47,6 +47,16 @@ function slack_to_drupal_menu() {
     'file' => 'slack_to_drupal.admin.inc',
   );
 
+  $items['admin/config/services/slack_to_drupal/channel'] = array(
+    'type' => MENU_NORMAL_ITEM,
+    'title' => 'Slack Channel',
+    'description' => 'Configure Slack Channel.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('slack_to_drupal_admin_channel_config'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'slack_to_drupal.admin.inc',
+  );
+
   $items['admin/config/services/slack_to_drupal/approve'] = array(
     'type' => MENU_LOCAL_TASK,
     'title' => 'Approve Slack Images',
@@ -142,7 +152,7 @@ function slack_to_drupal_import_images() {
 
   // Loop through the files.
   foreach ($json_response['files'] as $f) {
-    //First check if this image is already imported
+    // First check if this image is already imported
     $result = db_select('slack_to_drupal', 'si')
       ->fields('si')
       ->condition('fid', $f['id'], '=')
@@ -218,4 +228,24 @@ function slack_to_drupal_import_images() {
         ->execute();
     }
   }
+}
+
+/**
+ * Get all channels from your Slack account.
+ *
+ * @return array   Array of channel id as key and channel name as value.
+ */
+function slack_to_drupal_get_channels() {
+  $channels = array();
+  $result = drupal_http_request('https://slack.com/api/channels.list?token=' .  variable_get('slack_to_drupal_token'));
+  if ($result->code == 200) {
+    $data = json_decode($result->data);
+    if ($data->ok == TRUE) {
+      foreach ($data->channels as $channel) {
+        $channels[$channel->id] = '#' . $channel->name;
+      }
+    }
+  }
+
+  return $channels;
 }

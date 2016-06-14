@@ -24,14 +24,6 @@ function slack_to_drupal_admin_config($form, &$form_state) {
     '#required' => TRUE,
   );
 
-  $form['slack_to_drupal_channel_id'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Slack Channel'),
-    '#description' => t('The Slack channel id that you would like to integrate to.'),
-    '#default_value' => variable_get('slack_to_drupal_channel_id'),
-    '#required' => TRUE,
-  );
-
   $form['slack_to_drupal_folder_name'] = array(
     '#type' => 'textfield',
     '#title' => t('Local path to files'),
@@ -45,6 +37,14 @@ function slack_to_drupal_admin_config($form, &$form_state) {
     '#title' => t('Slack Client Token'),
     '#description' => t('The token that Slack Provides.'),
     '#default_value' => variable_get('slack_to_drupal_token', ''),
+    '#disabled' => TRUE,
+  );
+
+  $form['slack_to_drupal_channel_id'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Slack Channel ID.'),
+    '#description' => t('The channel ID or if blank all channels.'),
+    '#default_value' => variable_get('slack_to_drupal_channel_id', ''),
     '#disabled' => TRUE,
   );
 
@@ -102,9 +102,42 @@ function slack_to_drupal_admin_token_config() {
     }
   }
 
-  drupal_goto($base_url . '/admin/config/services/slack_to_drupal');
+  drupal_goto($base_url . '/admin/config/services/slack_to_drupal/channel');
 
   return '';
+}
+
+/**
+ * Sets channel.
+ */
+function slack_to_drupal_admin_channel_config($form, &$form_state) {
+  // Get Slack channels.
+  $default = array(
+    '' => 'All Channels',
+  );
+  $channels = $default + slack_to_drupal_get_channels();
+
+  $form['slack_to_drupal_channel_id'] = array(
+    '#options' => $channels,
+    '#type' => 'select',
+    '#title' => t('Slack Channel'),
+    '#description' => t('Select the Channel you would like to integrate to.'),
+    '#default_value' => variable_get('slack_to_drupal_channel_id'),
+  );
+
+  $form = system_settings_form($form);
+
+  $form['#submit'][] = 'slack_to_drupal_admin_config_channel_submit';
+
+  return $form;
+}
+
+/**
+ * Submit handler for slack_to_drupal_admin_channel_config().
+ */
+function slack_to_drupal_admin_config_channel_submit() {
+  global $base_url;
+  drupal_goto($base_url . '/admin/config/services/slack_to_drupal/configuration');
 }
 
 /**
