@@ -36,6 +36,12 @@ function slack_to_drupal_schema() {
  * Implements hook_install()
  */
 function slack_to_drupal_install() {
+  // Create the file type
+  $type = new stdClass();
+  $type->type = 'slack_image';
+  $type->label = 'Slack Image';
+  $s = file_type_save($type);
+
   // Create the fields.
   if (!field_info_field('slack_image_approved')) {
     $field = array(

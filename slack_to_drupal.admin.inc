@@ -156,31 +156,37 @@ function slack_to_drupal_approve() {
   if (isset($result['file'])) {
     $ids = array_keys($result['file']);
     // Adds CSS.
-    drupal_add_css($data['css'], array('type' => 'inline'));
     drupal_add_css(drupal_get_path('module', 'slack_to_drupal') . '/css/slack_to_drupal.css');
   }
 
   $fids = array();
   $count = 0;
-  foreach ($ids as $id) {
+  foreach($ids as $id){
     $file = file_load($id);
-    $fileview = file_view($file, 'slack_image_display');
-    $results[] = drupal_render($fileview);
-    $fids[$count] = $id;
-    $count++;
+
+    $form['file'][$id] = array(
+      '#type' => 'fieldset',
+      '#collapsible' => FALSE,
+      '#collapsed' => FALSE,
+      '#tree' => TRUE,
+    );
+
+    $form['file'][$id]['checkbox'] = array(
+      '#type' =>'checkbox',
+    );
+
+    $form['file'][$id]['image'] = array(
+      '#markup' => theme('image_style', array('path' => $file->uri, 'style_name' => 'medium')),
+    );
+
+    $form['file'][$id]['caption'] = array(
+      '#type' => 'textfield',
+      '#default_value' => $file->slack_image_title_text['und'][0]['value'],
+      '#attributes' => array(
+        'placeholder' => t('Enter image caption'),
+      ),
+    );
   }
-
-  $form['fids'] = array(
-    '#title' =>  'fids',
-    '#value' => $fids,
-    '#type' => 'value',
-  );
-
-  $form['files'] = array(
-    '#title' => t('Unapproved Images'),
-    '#type' => 'checkboxes',
-    '#options' => $results,
-  );
 
   $form['approve'] = array(
     '#type' => 'submit',
@@ -199,18 +205,24 @@ function slack_to_drupal_approve() {
  * Submit handler for slack_to_drupal_approve().
  */
 function slack_to_drupal_approve_submit($form, &$form_state) {
-  if (isset($form_state['input']['files'])) {
-    foreach ($form_state['input']['files'] as $fid) {
-      $image = file_load($form_state['values']['fids'][$fid]);
+  foreach ($form_state['input'] as $id => $file) {
+    if (isset($file['checkbox']) && $file['checkbox'] == 1) {
+      $image = file_load($id);
       if ($form_state['values']['op'] == 'Approve') {
         $image->slack_image_approved['und']['0']['value'] = 1;
+        $image->slack_image_title_text['und'][0]['value'] = $file['caption'];
         file_save($image);
-        drupal_set_message(t('Selected files are approved'));
       }
       else {
         file_delete($image);
-        drupal_set_message(t('Selected files are removed'));
       }
     }
+  }
+
+  if ($form_state['values']['op'] == 'Approve') {
+    drupal_set_message('Selected files were approved');
+  }
+  else {
+    drupal_set_message('Selected files were removed');
   }
 }
