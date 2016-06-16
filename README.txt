@@ -76,9 +76,9 @@ CONFIGURATION
           a way for Slack users to post images in a specific Slack channel, and
           have it import into Drupal as File Entities.
          Link to clear instructions on how to install your Slack app:
-
+         http://cgit.drupalcode.org/slack_to_drupal/tree/README.txt
          Link to support for your Slack app:
-
+         https://www.drupal.org/project/issues/slack_to_drupal?categories=All
          Redirect URI(s):
          [http://www.mysite.com]/admin/config/services/slack_to_drupal
 
