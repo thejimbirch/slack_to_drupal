@@ -67,7 +67,7 @@ function slack_to_drupal_admin_config_submit($form, &$form_state) {
 
   $query = array(
     'client_id' => variable_get('slack_to_drupal_client_id'),
-    'scope' => 'read',
+    'scope' => 'files:read,channels:read,users:read',
     'redirect_uri' => $base_url . '/admin/config/services/slack_to_drupal/token',
   );
 
