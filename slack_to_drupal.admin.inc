@@ -184,11 +184,25 @@ function slack_to_drupal_approve() {
       '#markup' => theme('image_style', array('path' => $file->uri, 'style_name' => 'medium')),
     );
 
+    $form['file'][$id]['image_name'] = array(
+      '#markup' => $file->filename,
+    );
+
     $form['file'][$id]['caption'] = array(
-      '#type' => 'textfield',
+      '#title' => 'Caption',
+      '#type' => 'textarea',
       '#default_value' => $file->slack_image_title_text['und'][0]['value'],
       '#attributes' => array(
         'placeholder' => t('Enter image caption'),
+      ),
+    );
+
+    $form['file'][$id]['slack_user'] = array(
+      '#title' => 'User',
+      '#type' => 'textfield',
+      '#default_value' => $file->slack_user['und'][0]['value'],
+      '#attributes' => array(
+        'placeholder' => t('Enter user'),
       ),
     );
   }
@@ -216,6 +230,7 @@ function slack_to_drupal_approve_submit($form, &$form_state) {
       if ($form_state['values']['op'] == 'Approve') {
         $image->slack_image_approved['und']['0']['value'] = 1;
         $image->slack_image_title_text['und'][0]['value'] = $file['caption'];
+        $image->slack_user['und'][0]['value'] = $file['slack_user'];
         file_save($image);
       }
       else {
