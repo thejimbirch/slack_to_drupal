@@ -19,17 +19,21 @@ function slack_to_drupal_ctools_plugin_directory($owner, $plugin_type) {
  */
 function slack_to_drupal_menu() {
   $items['admin/config/services/slack_to_drupal'] = array(
-    'type' => MENU_NORMAL_ITEM,
-    'title' => 'Slack to Drupal Configuration',
-    'description' => 'Configure Slack to Drupal.',
+    'title' => 'Approve Slack Images',
+    'description' => 'Approve Slack Images.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('slack_to_drupal_admin_config'),
+    'page arguments' => array('slack_to_drupal_approve'),
     'access arguments' => array('administer site configuration'),
     'file' => 'slack_to_drupal.admin.inc',
   );
 
-  $items['admin/config/services/slack_to_drupal/configuration'] = array(
+  $items['admin/config/services/slack_to_drupal/approve'] = array(
     'type' => MENU_DEFAULT_LOCAL_TASK,
+    'title' => 'Approve Slack Images',
+  );
+
+  $items['admin/config/services/slack_to_drupal/configuration'] = array(
+    'type' => MENU_LOCAL_TASK,
     'title' => 'Slack to Drupal Configuration',
     'description' => 'Configure Slack to Drupal.',
     'page callback' => 'drupal_get_form',
@@ -55,16 +59,6 @@ function slack_to_drupal_menu() {
     'page arguments' => array('slack_to_drupal_admin_channel_config'),
     'access arguments' => array('administer site configuration'),
     'file' => 'slack_to_drupal.admin.inc',
-  );
-
-  $items['admin/config/services/slack_to_drupal/approve'] = array(
-    'type' => MENU_LOCAL_TASK,
-    'title' => 'Approve Slack Images',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('slack_to_drupal_approve'),
-    'access arguments' => array('administer site configuration'),
-    'file' => 'slack_to_drupal.admin.inc',
-    'weight' => 10,
   );
 
   return $items;
